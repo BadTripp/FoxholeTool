@@ -11,8 +11,10 @@
     F10 -> exit
 */
 
-#define _POSIX_C_SOURCE 200809L
-#define _XOPEN_SOURCE   700
+#ifndef _WIN32
+  #define _POSIX_C_SOURCE 200809L
+  #define _XOPEN_SOURCE   700
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,16 +24,6 @@
 #include <errno.h>
 #include <ctype.h>
 #include <string.h>
-#include <unistd.h>     //usleep, readlink
-#include <strings.h>    //strcasecmp
-#include <pthread.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/keysym.h>
-#include <X11/Xatom.h>
-#include <X11/extensions/XTest.h>
-
-
 
 #ifdef _WIN32
   #define WIN32_LEAN_AND_MEAN
@@ -40,8 +32,9 @@
     #define PROCESS_QUERY_LIMITED_INFORMATION 0x1000
   #endif
 #else
+  #include <unistd.h>     //usleep, readlink
+  #include <strings.h>    //strcasecmp
   #include <pthread.h>
-  #include <unistd.h>
   #include <sys/select.h>
   #include <X11/Xlib.h>
   #include <X11/Xutil.h>

@@ -60,13 +60,13 @@ The code tries to detect the Foxhole/War game window by process path (`_NET_WM_P
 **Linux (X11)**
 
 ```bash
-gcc clicker.c -o clicker -lX11 -lXtst -lpthread
+gcc clicker.c -o foxholetool -lX11 -lXtst -lpthread
 ```
 
 Or with optimizations:
 
 ```bash
-gcc -O2 clicker.c -o clicker -lX11 -lXtst -lpthread
+gcc -O2 clicker.c -o foxholetool -lX11 -lXtst -lpthread
 ```
 
 **Windows (MSVC)**
@@ -75,18 +75,18 @@ gcc -O2 clicker.c -o clicker -lX11 -lXtst -lpthread
 cl /O2 clicker.c user32.lib
 ```
 
-**Windows (MinGW)**
+**Windows (MinGW, senza console)**
 
 ```bash
-gcc -O2 clicker.c -o clicker.exe -luser32
+gcc -O2 -mwindows clicker.c -o foxholetool.exe -luser32 -lgdi32
 ```
 
 ### Usage
 
 1. Start the game .
 2. Run the compiled binary:
-   - `./clicker` on Linux.
-   - `clicker.exe` on Windows.
+   - `./foxholetool` on Linux.
+   - `foxholetool.exe` on Windows.
 3. Look for the overlay bar at the top, aligned with the game window.
 4. Use the hotkeys:
    - `F2` once to save the current mouse position and start spamming left click there.
@@ -150,4 +150,3 @@ Automating input may be against some games’ Terms of Service and can be detect
 - `clicker.c` – main cross‑platform implementation (Windows + Linux/X11).
 - `foxtool_hotkeys.cfg` – user hotkey configuration (created at runtime; usually not committed).
 - Other source files/copies – experimental or backup variants, if present.
-
