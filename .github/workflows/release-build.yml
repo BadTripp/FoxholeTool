@@ -31,6 +31,21 @@ jobs:
       - name: Build Linux and Windows binaries
         run: ./build.sh all
 
+      - name: Generate release notes from commits
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          echo "## Changes in this release" > RELEASE_BODY.md
+          if git describe --tags --abbrev=0 HEAD^ >/dev/null 2>&1; then
+            PREV_TAG=$(git describe --tags --abbrev=0 HEAD^)
+            echo "" >> RELEASE_BODY.md
+            echo "Since ${PREV_TAG}:" >> RELEASE_BODY.md
+            git log --pretty=format:'- %s' "${PREV_TAG}..HEAD" >> RELEASE_BODY.md
+          else
+            echo "" >> RELEASE_BODY.md
+            echo "Initial release changes:" >> RELEASE_BODY.md
+            git log --pretty=format:'- %s' >> RELEASE_BODY.md
+          fi
+
       - name: Upload artifact (Linux)
         uses: actions/upload-artifact@v4
         with:
@@ -50,3 +65,4 @@ jobs:
           files: |
             foxholetool
             foxholetool.exe
+          body_path: RELEASE_BODY.md
